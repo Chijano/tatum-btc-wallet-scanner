@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="379cd275-b9c5-424f-87ed-d29d59b14c4c" name="Changes" comment="fallback added">
-      <change afterPath="$PROJECT_DIR$/src/gui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/price_fetcher.py" afterDir="false" />
+    <list default="true" id="379cd275-b9c5-424f-87ed-d29d59b14c4c" name="Changes" comment="Gui added">
+      <change afterPath="$PROJECT_DIR$/assets/wsb.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/safe_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/safe_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wallet_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/wallet_scanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +42,11 @@
     &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\marti\PycharmProjects\Tatum-CSE\assets" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Tatum-CSE" />
@@ -94,11 +96,20 @@
       <option name="project" value="LOCAL" />
       <updated>1771099906081</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Gui added">
+      <option name="closed" value="true" />
+      <created>1771182402542</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1771182402542</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="MVP" />
-    <option name="LAST_COMMIT_MESSAGE" value="MVP" />
+    <MESSAGE value="Gui added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gui added" />
   </component>
 </project>
