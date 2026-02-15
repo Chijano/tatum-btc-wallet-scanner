@@ -14,22 +14,27 @@ def safe_get(url, max_retries=6, min_interval=3.0):
         print(f"[THROTTLE] Waiting {wait:.2f}s before next request...")
         time.sleep(wait)
 
-    delay = 1
-
     for attempt in range(1, max_retries + 1):
-        r = requests.get(url)
-        _last_request_time = time.time()
+        try:
+            r = requests.get(url, timeout=10)
 
-        if r.status_code == 429:
-            print(f"[429] Rate limit exceeded. Waiting {delay}s before retry {attempt}/{max_retries}...")
-            time.sleep(delay)
-            delay *= 2
-            continue
+            if r.status_code == 404:
+                print(f"[ERROR] 404 Not Found for {url}")
+                return {"error": "endpoint_not_available"}
 
-        if r.status_code >= 400:
-            print(f"[ERROR] HTTP {r.status_code} for {url}")
+            if r.status_code == 429:
+                delay = 2 ** (attempt - 1)
+                print(f"[429] Rate limit exceeded. Waiting {delay}s before retry {attempt}/{max_retries}...")
+                time.sleep(delay)
+                continue
+
             r.raise_for_status()
 
-        return r
+            _last_request_time = time.time()
+            return r.json()
 
-    raise Exception("Too many retries. Tatum gateway still returning 429.")
+        except requests.exceptions.RequestException as e:
+            print(f"[NETWORK ERROR] {e}")
+            time.sleep(1)
+
+    return {"error": "tatum_unavailable"}
