@@ -10,38 +10,31 @@ class WalletAnalyzerGUI:
         self.root = root
         self.root.title("Tatum Wallet Analyzer")
         self.root.geometry("600x750")
-        self.root.resizable(True, True)  # allow window resizing
-
-        # Full white background
+        self.root.resizable(True, True)
         self.root.configure(bg="white")
 
-        # Load and display banner image (keep aspect ratio with max height)
+        # Load banner image
         image_path = os.path.join(os.path.dirname(__file__), "..", "assets", "wsb.jpg")
         img = Image.open(image_path)
 
-        # Target width
         target_width = 580
-
-        # Compute height based on aspect ratio
         w, h = img.size
         aspect_ratio = h / w
         target_height = int(target_width * aspect_ratio)
 
-        # Limit height so GUI doesn't break
         max_height = 150
         if target_height > max_height:
             target_height = max_height
             target_width = int(target_height / aspect_ratio)
 
-        # Resize without distortion
         img = img.resize((target_width, target_height), Image.Resampling.LANCZOS)
 
-        self.banner = ImageTk.PhotoImage(img)
+        self.banner: ImageTk.PhotoImage = ImageTk.PhotoImage(img)
         self.banner_label = tk.Label(root, image=self.banner, bg="white")  # type: ignore
         self.banner_label.pack(pady=10)
 
         # Address input
-        tk.Label(root, text="Enter BTC Testnet Address:", bg="white").pack(pady=5)
+        tk.Label(root, text="Enter BTC Address:", bg="white").pack(pady=5)
         self.address_entry = tk.Entry(root, width=50, bg="white")
         self.address_entry.pack(pady=5)
 
@@ -60,6 +53,11 @@ class WalletAnalyzerGUI:
         self.output = scrolledtext.ScrolledText(root, width=70, height=18, bg="white")
         self.output.pack(pady=10, expand=True, fill="both")
 
+        # Configure text tags for colors
+        self.output.tag_config("meta", foreground="#555555")      # grey
+        self.output.tag_config("success", foreground="#008000")   # green
+        self.output.tag_config("error", foreground="#CC0000")     # red
+
         # Buttons
         button_frame = tk.Frame(root, bg="white")
         button_frame.pack(pady=10)
@@ -72,25 +70,40 @@ class WalletAnalyzerGUI:
         api_key = self.api_key_entry.get().strip()
         scan_range = self.scan_var.get()
 
+        self.output.delete(1.0, tk.END)
+
         if not address:
-            self.output.insert(tk.END, "Please enter an address.\n")
+            self.output.insert(tk.END, "Please enter an address.\n", "error")
             return
 
         if not api_key:
-            self.output.insert(tk.END, "Please enter your Tatum API key.\n")
+            self.output.insert(tk.END, "Please enter your Tatum API key.\n", "error")
             return
 
-        self.output.delete(1.0, tk.END)
+        # Loading indicator
+        self.output.insert(tk.END, "Scanning...\n\n", "meta")
+        self.output.update()
 
-        # >>> NEW: Print address + block range at top of output <<<
-        self.output.insert(tk.END, f"Scanning address: {address}\n")
-        self.output.insert(tk.END, f"Blocks to scan: {scan_range}\n\n")
+        # Print address + block range
+        self.output.insert(tk.END, f"Address: {address}\n", "meta")
+        self.output.insert(tk.END, f"Blocks to scan: {scan_range}\n\n", "meta")
 
         try:
             result = analyze_wallet_activity(address, scan_range, api_key)
-            self.output.insert(tk.END, result)
+
+            # Colorize output
+            for line in result.split("\n"):
+                if "Activity found" in line:
+                    self.output.insert(tk.END, line + "\n", "success")
+                elif "error" in line.lower():
+                    self.output.insert(tk.END, line + "\n", "error")
+                elif "No activity" in line:
+                    self.output.insert(tk.END, line + "\n", "meta")
+                else:
+                    self.output.insert(tk.END, line + "\n", "meta")
+
         except Exception as e:
-            self.output.insert(tk.END, f"Unexpected error: {e}\n")
+            self.output.insert(tk.END, f"Unexpected error: {e}\n", "error")
 
 
 def main():
