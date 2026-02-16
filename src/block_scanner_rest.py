@@ -6,7 +6,7 @@ def scan_recent_blocks_rest(address: str, scan_range: int, api_key: str, network
     """
     Scan recent blocks using Tatum REST API.
     Returns:
-        list of dicts with block info and matching transactions
+        list of dicts with block info and matching INCOMING transactions
         OR {"error": "..."} if REST is unavailable
     """
 
@@ -39,11 +39,14 @@ def scan_recent_blocks_rest(address: str, scan_range: int, api_key: str, network
             r.raise_for_status()
             txs = r.json()
 
-            # Find matching transactions
+            # Find INCOMING transactions only
             matching = []
             for tx in txs:
-                if address in str(tx):
-                    matching.append(tx)
+                for vout in tx.get("vout", []):
+                    spk = vout.get("scriptPubKey", {})
+                    if spk.get("address") == address:
+                        matching.append(tx)
+                        break
 
             results.append({
                 "height": height,

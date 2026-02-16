@@ -22,40 +22,46 @@ def rpc_call(url: str, api_key: str, method: str, params=None):
     return data.get("result")
 
 
+def is_incoming_for_address(tx: dict, address: str) -> bool:
+    """
+    True = adresa se objevila v některém výstupu (vout)
+    → čistá incoming detekce
+    """
+    for vout in tx.get("vout", []):
+        spk = vout.get("scriptPubKey", {})
+        if spk.get("address") == address:
+            return True
+    return False
+
+
 def scan_recent_blocks_rpc(address: str, scan_range: int, api_key: str, network: str):
     """
     Scan recent blocks using Tatum RPC API.
     Returns:
-        list of dicts with block info and matching transactions
+        list of dicts with block info and matching INCOMING transactions
         OR {"error": "..."} if RPC is unavailable
     """
 
     rpc_url = get_rpc_url(network)
 
     try:
-        # 1) Get current block height
         current_height = rpc_call(rpc_url, api_key, "getblockcount")
     except Exception as e:
         return {"error": f"RPC unavailable: {e}"}
 
     results = []
 
-    # 2) Loop over recent blocks
     for height in range(current_height, current_height - scan_range, -1):
         try:
-            # Get block hash
             block_hash = rpc_call(rpc_url, api_key, "getblockhash", [height])
-
-            # Get full block (verbosity 2 = decoded)
             block = rpc_call(rpc_url, api_key, "getblock", [block_hash, 2])
 
             timestamp = block.get("time")
             txs = block.get("tx", [])
 
-            # Find matching transactions
             matching = []
             for tx in txs:
-                if address in str(tx):
+                if is_incoming_for_address(tx, address):
                     matching.append(tx)
 
             results.append({

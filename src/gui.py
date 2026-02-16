@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, scrolledtext
+from tkinter import ttk, scrolledtext, PhotoImage
 from PIL import Image, ImageTk
 import os
 from src.app import analyze_wallet_activity
@@ -29,8 +29,9 @@ class WalletAnalyzerGUI:
 
         img = img.resize((target_width, target_height), Image.Resampling.LANCZOS)
 
-        self.banner: ImageTk.PhotoImage = ImageTk.PhotoImage(img)
-        self.banner_label = tk.Label(root, image=self.banner, bg="white")  # type: ignore
+        # Explicit type hint removes PyCharm warning
+        self.banner: PhotoImage = ImageTk.PhotoImage(img)
+        self.banner_label = tk.Label(root, image=self.banner, bg="white")
         self.banner_label.pack(pady=10)
 
         # Address input
@@ -49,14 +50,22 @@ class WalletAnalyzerGUI:
         self.scan_spin = ttk.Spinbox(root, from_=1, to=50, textvariable=self.scan_var, width=5)
         self.scan_spin.pack(pady=5)
 
-        # Output box
-        self.output = scrolledtext.ScrolledText(root, width=70, height=18, bg="white")
-        self.output.pack(pady=10, expand=True, fill="both")
+        # Output box inside a frame to add margins
+        output_frame = tk.Frame(root, bg="white")
+        output_frame.pack(padx=20, pady=10, expand=True, fill="both")
 
-        # Configure text tags for colors
-        self.output.tag_config("meta", foreground="#555555")      # grey
-        self.output.tag_config("success", foreground="#008000")   # green
-        self.output.tag_config("error", foreground="#CC0000")     # red
+        self.output = scrolledtext.ScrolledText(
+            output_frame,
+            width=70,
+            height=18,
+            bg="white"
+        )
+        self.output.pack(expand=True, fill="both")
+
+        # Configure text tags
+        self.output.tag_config("meta", foreground="#555555")
+        self.output.tag_config("success", foreground="#008000")
+        self.output.tag_config("error", foreground="#CC0000")
 
         # Buttons
         button_frame = tk.Frame(root, bg="white")
@@ -91,14 +100,11 @@ class WalletAnalyzerGUI:
         try:
             result = analyze_wallet_activity(address, scan_range, api_key)
 
-            # Colorize output
             for line in result.split("\n"):
                 if "Activity found" in line:
                     self.output.insert(tk.END, line + "\n", "success")
                 elif "error" in line.lower():
                     self.output.insert(tk.END, line + "\n", "error")
-                elif "No activity" in line:
-                    self.output.insert(tk.END, line + "\n", "meta")
                 else:
                     self.output.insert(tk.END, line + "\n", "meta")
 
