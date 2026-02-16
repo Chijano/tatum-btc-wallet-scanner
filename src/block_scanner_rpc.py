@@ -24,8 +24,8 @@ def rpc_call(url: str, api_key: str, method: str, params=None):
 
 def is_incoming_for_address(tx: dict, address: str) -> bool:
     """
-    True = adresa se objevila v některém výstupu (vout)
-    → čistá incoming detekce
+    Returns True if the address appears in any transaction output (vout).
+    This is pure incoming‑transaction detection.
     """
     for vout in tx.get("vout", []):
         spk = vout.get("scriptPubKey", {})

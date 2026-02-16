@@ -2,7 +2,7 @@ MAINNET = "mainnet"
 TESTNET = "testnet"
 
 
-# Very simple, practical heuristics – stačí pro náš use-case
+# Very simple, practical heuristics – enough for our use‑case
 def detect_network(address: str) -> str:
     address = address.strip()
 
@@ -22,5 +22,5 @@ def detect_network(address: str) -> str:
     if address.startswith("m") or address.startswith("n") or address.startswith("2"):
         return TESTNET
 
-    # Fallback – když nepoznáme, budeme konzervativní a vrátíme mainnet
+    # Fallback – if unknown, default to mainnet
     return MAINNET
