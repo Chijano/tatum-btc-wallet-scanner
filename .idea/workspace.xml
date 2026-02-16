@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="379cd275-b9c5-424f-87ed-d29d59b14c4c" name="Changes" comment="V.1.0 Finished!">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/block_scanner_rpc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/block_scanner_rpc.py" afterDir="false" />
-    </list>
+    <list default="true" id="379cd275-b9c5-424f-87ed-d29d59b14c4c" name="Changes" comment="V.1.0 Finished!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +117,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771279828130</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="V.1.0 Finished!">
+      <option name="closed" value="true" />
+      <created>1771280371857</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1771280371857</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
