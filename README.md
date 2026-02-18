@@ -31,7 +31,7 @@ Install dependencies manually:
 pip install requests
 
 Installation
-git clone github.com/<your-username>/tatum-btc-wallet-scanner.git
+git clone 
 cd tatum-btc-wallet-scanner
 
 Running the App
