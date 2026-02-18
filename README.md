@@ -31,26 +31,32 @@ Install dependencies manually:
 pip install requests
 
 Installation
-git clone 
+1) Clone the repository
+git clone https://github.com/Chijano/tatum-btc-wallet-scanner.git
+2) Enter the project directory
 cd tatum-btc-wallet-scanner
+3) Install dependencies
+pip install requests
 
 Running the App
 python main.py
 
 Project Structure
+```
 tatum-btc-wallet-scanner/
 │
-├── main.py                        – Entry point, starts the GUI
+├── main.py
 ├── src/
-│   ├── app.py                     – High-level application wiring
-│   ├── block_scanner_rest.py      – REST-based block scanning utilities
-│   ├── block_scanner_rpc.py       – RPC-based block scanning logic
-│   ├── gui.py                     – Tkinter GUI components
-│   ├── network_utils.py           – Network detection and helper utilities
-│   └── tatum_endpoints.py         – Tatum RPC/endpoint configuration
+│   ├── app.py
+│   ├── block_scanner_rest.py
+│   ├── block_scanner_rpc.py
+│   ├── gui.py
+│   ├── network_utils.py
+│   └── tatum_endpoints.py
 │
-├── assets/                        – Icons, images (optional)
+├── assets/
 └── README.md
+```
 
 Notes
 - This project focuses on incoming activity only.
