@@ -1,47 +1,110 @@
 Tatum BTC Wallet Scanner
-A lightweight Bitcoin wallet activity analyzer built in Python.
-The tool scans recent blocks on Bitcoin mainnet or testnet and detects incoming transactions for a given address.
-It uses Tatum’s RPC Gateway and includes a clean Tkinter GUI for easy use.
+========================
 
-Features
-- Incoming-only transaction detection
-Pure vout-based heuristics for reliable incoming activity scanning.
-- Automatic network detection
-Supports Bech32 and legacy prefixes for both mainnet and testnet.
-- RPC-based block scanning
-Fetches recent blocks through Tatum’s RPC Gateway and inspects all transactions.
-- Tkinter GUI
-Simple, responsive interface with loading indicators and user-friendly error handling.
-- Optimized for rate limits
-Minimal API calls, retry logic, and graceful fallback behavior.
+A lightweight, real‑world example of how to use the Tatum Blockchain Data API
+to monitor Bitcoin addresses, fetch their transactions, and analyze wallet
+activity on both MAINNET and TESTNET.
 
-How It Works
-- User enters a Bitcoin address.
-- The app detects whether it belongs to mainnet or testnet.
-- The scanner fetches recent blocks using Tatum’s RPC Gateway.
-- Each transaction is inspected for outputs matching the target address.
-- Incoming transactions are displayed in the GUI.
+This project demonstrates practical API usage, RPC scanning, and a simple
+customer‑ready interface for blockchain monitoring.
 
-Requirements
-The project uses only a few standard Python libraries plus:
-- requests
-- tkinter (included with Python)
-- tkinter.scrolledtext
-Install dependencies manually:
-pip install requests
+----------------------------------------------------------------------
+USE CASE
+----------------------------------------------------------------------
 
-Installation
-1) Clone the repository
-git clone https://github.com/Chijano/tatum-btc-wallet-scanner.git
-2) Enter the project directory
-cd tatum-btc-wallet-scanner
-3) Install dependencies
-pip install requests
+Companies working with digital assets often need to:
 
-Running the App
-python main.py
+- monitor incoming/outgoing BTC transactions
+- track suspicious activity for AML/KYC purposes
+- analyze wallet behavior
+- build internal dashboards and alerts
 
-Project Structure
+This scanner provides a minimal, easy‑to‑extend foundation for such workflows.
+
+----------------------------------------------------------------------
+HOW IT WORKS
+----------------------------------------------------------------------
+
+1. User enters a BTC address, API key, and number of blocks to scan.
+2. The scanner detects whether the address belongs to MAINNET or TESTNET.
+3. It queries Tatum’s Blockchain Data API or RPC endpoint.
+4. It retrieves and parses transactions.
+5. Results are displayed in a clean, readable format.
+
+Data Flow (simplified):
+
+User Input → Network Detection → Tatum API/RPC → JSON Response → Parsed Output
+
+----------------------------------------------------------------------
+EXAMPLE SCREENSHOT
+----------------------------------------------------------------------
+
+### Testnet Scan
+![Testnet Scan](assets/testnet_print_screen.jpg)
+
+----------------------------------------------------------------------
+FEATURES
+----------------------------------------------------------------------
+
+- Detects MAINNET vs TESTNET automatically
+- Fetches latest BTC transactions
+- Uses Tatum’s REST API or RPC
+- Clean, readable output
+- Simple GUI for user input
+- Ready for extension (alerts, dashboards, storage, etc.)
+
+----------------------------------------------------------------------
+REQUIREMENTS
+----------------------------------------------------------------------
+
+- Python 3.10+
+- Tatum API Key
+- requests library
+- tkinter (bundled with Python)
+
+Install dependencies:
+
+    pip install -r requirements.txt
+
+----------------------------------------------------------------------
+CONFIGURATION
+----------------------------------------------------------------------
+
+This application does NOT require any system configuration.
+
+The Tatum API key is entered directly in the GUI, so there is no need to set
+environment variables.
+
+Optional:
+If you prefer to avoid typing the API key manually each time, you may store it
+as an environment variable. The application will use it only if no key is
+entered in the GUI.
+
+macOS / Linux:
+    export TATUM_API_KEY="your_api_key_here"
+
+Windows PowerShell:
+    setx TATUM_API_KEY "your_api_key_here"
+
+----------------------------------------------------------------------
+USAGE
+----------------------------------------------------------------------
+
+Run the scanner:
+
+    python main.py
+
+Enter:
+- BTC address
+- Tatum API key
+- Number of blocks to scan
+
+Then click "Analyze".
+
+----------------------------------------------------------------------
+PROJECT STRUCTURE
+----------------------------------------------------------------------
+
 ```
 tatum-btc-wallet-scanner/
 │
@@ -55,10 +118,63 @@ tatum-btc-wallet-scanner/
 │   └── tatum_endpoints.py
 │
 ├── assets/
-└── README.md
+│   ├── testnet_print_screen.jpg
+│   ├── mainnet_print_screen_test.jpg
+│   └── wsb.jpg
+│
+└── README.txt
 ```
 
-Notes
-- This project focuses on incoming activity only.
-- It does not check balances or use REST balance endpoints.
-- Designed as a practical, interview-ready demonstration of API integration, GUI design, and blockchain analytics.
+----------------------------------------------------------------------
+CODE OVERVIEW
+----------------------------------------------------------------------
+
+The core logic includes:
+
+- Network detection (MAINNET vs TESTNET)
+- RPC scanning for block activity
+- REST API fallback
+- Transaction parsing
+- GUI wrapper for user-friendly interaction
+
+----------------------------------------------------------------------
+TESTING ADDRESSES
+----------------------------------------------------------------------
+
+Example BTC address:
+
+    bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+
+----------------------------------------------------------------------
+TROUBLESHOOTING
+----------------------------------------------------------------------
+
+"Invalid API key"
+    Check that the key is entered correctly in the GUI.
+
+"No activity found"
+    The address may be inactive or the scanned block range is too small.
+
+"RPC/REST request failed"
+    Check:
+    - internet connection
+    - API key
+    - Tatum service status
+
+----------------------------------------------------------------------
+POSSIBLE EXTENSIONS
+----------------------------------------------------------------------
+
+- Add alerts (email, Slack, webhook)
+- Store transactions in a database
+- Add pagination for large wallets
+- Add support for multiple addresses
+- Build a simple web dashboard
+- Add risk scoring or AML heuristics
+
+----------------------------------------------------------------------
+LICENSE
+----------------------------------------------------------------------
+
+This project is provided without an open‑source license.
+All rights reserved.
