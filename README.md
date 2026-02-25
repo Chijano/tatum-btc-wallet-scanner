@@ -62,9 +62,14 @@ REQUIREMENTS
 - requests library
 - tkinter (bundled with Python)
 
-Install dependencies:
+----------------------------------------------------------------------
+INSTALLATION
+----------------------------------------------------------------------
 
-    pip install -r requirements.txt
+This project does not include a requirements.txt file.  
+Install the required dependency manually:
+
+pip install requests
 
 ----------------------------------------------------------------------
 CONFIGURATION
