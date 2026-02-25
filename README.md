@@ -69,7 +69,7 @@ INSTALLATION
 This project does not include a requirements.txt file.  
 Install the required dependency manually:
 
-pip install requests
+    pip install requests
 
 ----------------------------------------------------------------------
 CONFIGURATION
